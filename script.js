@@ -1,13 +1,13 @@
 // --- Photo Array (Randomized Order) ---
 const photoUrls = [
-    "Image5.jpeg",
-    "Image2.jpeg",
-    "Image8.jpeg",
-    "Image1.jpeg",
-    "Image6.jpeg",
-    "Image3.jpeg",
-    "Image7.jpeg",
-    "Image4.jpeg"
+    "/Images/Image5.jpeg",
+    "/Images/Image2.jpeg",
+    "/Images/Image8.jpeg",
+    "/Images/Image1.jpeg",
+    "/Images/Image6.jpeg",
+    "/Images/Image3.jpeg",
+    "/Images/Image7.jpeg",
+    "/Images/Image4.jpeg"
 ];
 
 // --- DUAL-MODE BACKGROUND ANIMATION ---
