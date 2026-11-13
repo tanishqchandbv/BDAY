@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zion Mainframe - Decryption Protocol</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Global Screen Overlays -->
+    <div class="crt-glass"></div>
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- STEP 0: Boot Sequence -->
+    <div id="step0" class="step-container step-screen">
+        <div id="bootTerminal" class="glitch-text active-typing"></div>
+    </div>
+
+    <!-- STEP 1: Login -->
+    <div id="step1" class="step-container step-screen" style="display: none;">
+        <div class="glitch-text">
+            > SYSTEM LOCKED.<br>
+            > PLEASE IDENTIFY YOURSELF.<br><br>
+        </div>
+        <div class="input-group">
+            <span class="prompt">> NICKNAME: </span>
+            <input type="text" id="nicknameInput" autocomplete="off" spellcheck="false" class="active-typing-input">
+        </div>
+        <br>
+        <button onclick="submitLogin()" class="action-btn">[ EXECUTE ]</button>
+        <div id="loginError" class="error-msg"></div>
+    </div>
+
+    <!-- STEP 2: Main Greeting -->
+    <div class="step-container step-screen" id="step2" style="display: none;">
+        <h1>SYSTEM UP...</h1>
+        <p class="subtitle">Identity confirmed. File unlocked.</p>
+        <div class="message-box">
+            <p>Dear <span id="displayNickname" style="font-weight: bold; color: #ffb000;"></span>,</p><br>
+            <p>Welcome to the mainframe. I built this entirely from scratch because getting you a standard paper birthday card felt way too boring—and honestly, putting up with me definitely earns you some custom software.</p><br>
+            <p>Thank you for being my absolute favorite person to share fries, highly indecisive dinner plans, and everyday adventures with. Proceed through the security gates if you're ready for your real gift.</p>
+        </div>
+        <br>
+        <button class="action-btn" onclick="nextStep(3)">[ Continue ]</button>
+    </div>
+
+    <!-- STEP 3: Truth Verification Riddle -->
+    <div id="step3" class="step-container step-screen" style="display: none;">
+        <div class="glitch-text" id="riddlePrompt" style="font-size: 0.95rem; text-align: left; line-height: 1.6; max-width: 650px; margin: 0 auto;">
+            > ANOMALY DETECTED. STANDARD BIOMETRICS FAILED.<br>
+            > INITIATING BEHAVIORAL PATTERN RECOGNITION...<br><br>
+            
+            > RUNNING SIMULATION: It is 8:30 PM. Both units are starving. <br>
+            > MALE_UNIT: "How about burgers?"<br>
+            > FEMALE_UNIT: "No, too heavy."<br>
+            > MALE_UNIT: "Sushi?"<br>
+            > FEMALE_UNIT: "No, had rice yesterday."<br>
+            > MALE_UNIT: "Pizza?"<br>
+            > FEMALE_UNIT: "I don't know, whatever you want."<br>
+            > RESULT: MALE_UNIT orders pizza. FEMALE_UNIT consumes 3 slices and successfully executes [STEAL_GARLIC_KNOT] protocol.<br><br>
+            
+            > ANALYSIS COMPLETE. Subject identity confirmed as: 100% LOBSTER.<br>
+            > FINAL CLEARANCE REQUIRED. Based on the calculated patience algorithms and sacrificed garlic knots...<br><br>
+            
+            <div style="text-align: center; color: #ff3366; font-weight: bold; margin-top: 15px;">
+                > SECURITY QUERY: WHO LOVES THE OTHER MORE? &lt;
+            </div>
+        </div>
+        
+        <!-- Wrapper gives the runaway button room to dodge -->
+        <div class="btn-group" id="riddleBtns" style="min-height: 150px; position: relative; display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 20px;">
+            <button class="action-btn" id="btnWrong" style="transition: transform 0.2s ease; position: relative; z-index: 10;">[ I DO ]</button>
+            <button class="action-btn" onclick="checkRiddle()">[ YOU DO ]</button>
+        </div>
+        
+        <div id="riddleError" class="error-msg" style="color: #ff3333; text-shadow: 0 0 5px red; margin-top: 20px; height: 20px;"></div>
+    </div>
+
+    <!-- STEP 4: Card Deck -->
+    <div class="step-container step-screen" id="step4" style="display: none;">
+        <h1>DATA_DECK</h1>
+        <div class="card-display" id="cardText">Awaiting command to draw first reason...</div>
+        <br>
+        <button class="action-btn" onclick="drawCard()">[ Extract Data ]</button>
+        <br><br>
+        <button class="action-btn bypass-btn" onclick="nextStep(5)">[ Bypass ]</button>
+    </div>
+
+    <!-- STEP 5: The Final Holographic Gift & Protocol -->
+    <div id="step5" class="step-container step-screen" style="display: none;">
+        
+        <div class="instructions" id="instructionText">> CLICK TO DECRYPT OBJECT &lt;</div>
+        
+        <div id="mainContainer">
+            <pre id="boxLayer"></pre>
+            <pre id="ribbonLayer"></pre>
+            <canvas id="heartCanvas" width="400" height="400"></canvas>
+        </div>
+
+        <div id="gridContainer">
+            <div class="ascii-frame"><div class="ascii-content" id="frame1"></div></div>
+            <div class="ascii-frame"><div class="ascii-content" id="frame2"></div></div>
+            <div class="ascii-frame"><div class="ascii-content" id="frame3"></div></div>
+            <div class="ascii-frame"><div class="ascii-content" id="frame4"></div></div>
+            
+            <div class="msg-box" id="centerMsg">
+                <div id="initialMsg">
+                    DECRYPTED FILES: <br><br>
+                    All my favorite memories... <br>are right here. ❤️<br>
+                    <button class="action-btn pulse-btn" id="finalProtocolBtn">[ INITIATE FINAL PROTOCOL ]</button>
+                </div>
+                
+                <div class="final-letter" id="finalLetter">
+                    <h2>Happy Birthday! 🎉</h2>
+                    <p>I just wanted to take a minute to step out of the hacker terminal and say how incredibly grateful I am to have you in my corner. Between our late-night projects, the endless inside jokes, and the times we just hang out doing absolutely nothing, you make everything so much better.</p>
+                    <p>You have this amazing energy that just lights up the room—even when you are actively stealing food off my plate. Phoebe said everyone has a "lobster"—someone who just gets them, matches their crazy, and makes the tough days easy. I am so unbelievably lucky that you are mine.</p>
+                    <p>Thank you for being such a brilliant, hilarious, and unconditionally supportive person. I hope this next year brings you everything you are working so hard for, and that you crush every goal in front of you.</p>
+                    <p>Now let's go celebrate, eat way too much, and hopefully pick a restaurant in under an hour.</p>
+                    
+                    <div class="terminal-hint">
+                        > SYSTEM ALERT: DIGITAL PROTOCOL COMPLETE.<br>
+                        > AWAITING PHYSICAL HARDWARE HANDSHAKE.<br>
+                        > AUTHORIZATION CODE: "UNAGI".<br>
+                        > PLEASE PRESENT YOURSELF TO THE ADMINISTRATOR TO CLAIM YOUR CENTRAL PERK ARTIFACT.
+                    </div>
+                    
+                    <br><br>
+                    <button class="action-btn pulse-btn" style="display: inline-block; opacity: 1; border-color: #ff3366; color: #ffb3c6;" onclick="nextStep(6)">[ ACCESS TARGET DOSSIER ]</button>
+                </div>
+            </div>
+            
+            <div class="ascii-frame"><div class="ascii-content" id="frame5"></div></div>
+            <div class="ascii-frame"><div class="ascii-content" id="frame6"></div></div>
+            <div class="ascii-frame"><div class="ascii-content" id="frame7"></div></div>
+            <div class="ascii-frame"><div class="ascii-content" id="frame8"></div></div>
+        </div>
+    </div>
+
+    <!-- STEP 6: The Holographic Hacker Card -->
+    <div id="step6" class="step-container step-screen" style="display: none; justify-content: center; margin-top: 5vh;">
+        <div class="card" id="holoCard">
+            <div class="card-border"></div>
+            <div class="card-inner">
+                <div class="idle-glow"></div>
+                
+                <div class="card-header">
+                    <span>[ MY_LOBSTER ]</span>
+                    <span class="card-hp">100 HP <span style="color: #ff3366;">&lt;3</span></span>
+                </div>
+
+                <div class="card-image-box" id="cardImage">
+                    <img src="GCard.jpeg" class="decrypted-photo" style="opacity: 1; animation: none;">
+                </div>
+
+                <div class="card-stats-bar">
+                    TYPE: UNPREDICTABLE | LEN: 5'X" | WGT: PERFECT
+                </div>
+
+                <div class="card-attacks">
+                    <div class="card-attack">
+                        <div class="card-attack-cost">[🍟]</div>
+                        <div class="card-attack-details">
+                            <div class="card-attack-name">FRY THEFT</div>
+                            <div class="card-attack-desc">Claims to "not be hungry," but will systematically extract fries from your sector when you look away.</div>
+                        </div>
+                        <div class="card-attack-damage">20</div>
+                    </div>
+
+                    <div class="card-attack">
+                        <div class="card-attack-cost">[🤔]</div>
+                        <div class="card-attack-details">
+                            <div class="card-attack-name">INDECISION BEAM</div>
+                            <div class="card-attack-desc">Requires 40 minutes to compute a restaurant choice. Defending unit is Confused and Starving.</div>
+                        </div>
+                        <div class="card-attack-damage">50</div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <span>WEAKNESS: COFFEE</span>
+                    <span>RESISTANCE: LOGIC</span>
+                    <span>RETREAT COST: [☕][☕]</span>
+                </div>
+                
+            </div>
+            <div class="card-foil"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
